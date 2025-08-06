@@ -30,12 +30,7 @@ test:
 
 production:
   primary:
-    <<: *default
-    database: email_poc_production
-    username: <%= ENV.fetch("DATABASE_USERNAME") %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD") %>
-    host: <%= ENV.fetch("DATABASE_HOST") %>
-    port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
+    url: <%= ENV.fetch("DATABASE_URL") %>
   cache:
     <<: *default
     database: email_poc_production_cache
