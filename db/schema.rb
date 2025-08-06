@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_07_21_141358) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "ahoy_messages", id: :string, force: :cascade do |t|
     t.string "user_type"
     t.integer "user_id"
@@ -27,7 +30,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_141358) do
 
   create_table "mailkick_subscriptions", force: :cascade do |t|
     t.string "subscriber_type"
-    t.integer "subscriber_id"
+    t.bigint "subscriber_id"
     t.string "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

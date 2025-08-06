@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Ruby on Rails 8.0.2 application serving as a proof-of-concept for email functionality. The codebase is currently in a fresh Rails state with minimal customization, ready for email-related feature development.
+This is a Ruby on Rails 8.0.2 application implementing a newsletter email system. The application includes newsletter creation/management, subscriber management, bulk email sending, email tracking (Ahoy Email), and unsubscribe functionality (Mailkick). Content is written in Markdown and rendered with Marksmith.
 
 ## Development Commands
 
@@ -60,16 +60,20 @@ bin/rails jobs:work                # Process jobs (alternative)
 - **Propshaft** modern asset pipeline with **Import Maps** for JavaScript
 
 ### Email Infrastructure
-- **ActionMailer** with ApplicationMailer base class
+- **ActionMailer** with ApplicationMailer base class and NewsletterMailer
+- **Marksmith** for Markdown-to-HTML rendering in newsletters
+- **Ahoy Email** for email tracking (opens, clicks)
+- **Mailkick** for unsubscribe/opt-out management
+- **Bulk email sending** with BCC batching (50 recipients per batch)
+- **SendNewsletterJob** for background newsletter processing
 - Development email delivery disabled by default
 - Production SMTP configuration available but commented in `config/environments/production.rb`
-- Mailer views in `app/views/layouts/mailer.html.erb` and `mailer.text.erb`
 
 ### Key Configuration Files
 - `config/application.rb` - Main app configuration with Rails 8.0 defaults
 - `config/environments/` - Environment-specific settings including email delivery
-- `config/initializers/` - Framework initializers (mostly defaults)
-- `config/routes.rb` - Currently only health check route defined
+- `config/initializers/` - Framework initializers including Marksmith, Ahoy Email, Simple Form
+- `config/routes.rb` - Newsletter and subscriber resource routes with root to newsletters#index
 
 ### Testing Structure
 - **Minitest** framework with parallel execution enabled
@@ -86,11 +90,13 @@ bin/rails jobs:work                # Process jobs (alternative)
 ## Development Notes
 
 ### Current State
-This is a freshly generated Rails application with no custom business logic implemented yet. The email POC functionality needs to be built from scratch, including:
-- Custom mailer classes and email templates
-- Email-related models and controllers
-- User authentication (bcrypt gem available but commented)
-- Email queue and delivery management interfaces
+The newsletter email system is fully implemented with:
+- **Newsletter model** with validation, publishing workflow, and edit restrictions
+- **Subscriber model** with email validation and Mailkick integration for opt-outs
+- **NewsletterMailer** with bulk sending capability and HTML sanitization
+- **SendNewsletterJob** for background processing of scheduled newsletters
+- **Web interface** for managing newsletters and subscribers with Simple Form
+- **Email tracking** via Ahoy Email for opens/clicks analytics
 
 ### Rails 8.0 Modern Patterns
 - Modern browser requirement enforced (`allow_browser versions: :modern`)
@@ -98,11 +104,15 @@ This is a freshly generated Rails application with no custom business logic impl
 - Hotwire for SPA-like behavior without complex JavaScript builds
 - Import Maps instead of traditional asset bundling
 
-### Email Development Considerations
+### Email System Architecture
+- **Newsletter publishing workflow**: Draft → Published → Sent (with edit restrictions)
+- **Bulk email sending**: BCC batching (50 recipients) with error handling and logging
+- **Markdown content**: Newsletters written in Markdown, rendered to sanitized HTML
+- **Email tracking**: Ahoy Email tracks opens/clicks with unique message IDs
+- **Unsubscribe management**: Mailkick handles opt-outs per subscriber
+- **Background processing**: SendNewsletterJob processes scheduled newsletters
+- **HTML sanitization**: Newsletter content sanitized for email safety
 - Production SMTP settings need configuration in `config/environments/production.rb`
-- Default mailer sender is "from@example.com" and should be customized
-- Consider adding email templates for common use cases (welcome, notifications, etc.)
-- Background job processing with Solid Queue for reliable email delivery
 
 ### Security & Performance
 - **Brakeman** security scanning available in development
