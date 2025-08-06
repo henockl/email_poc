@@ -48,6 +48,10 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 \
     DATABASE_URL=postgresql://user:pass@localhost/does_not_exist \
+    DATABASE_USERNAME=user \
+    DATABASE_PASSWORD=pass \
+    DATABASE_HOST=localhost \
+    DATABASE_PORT=5432 \
     RAILS_ENV=production \
     bundle exec rails assets:precompile
 
