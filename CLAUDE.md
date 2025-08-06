@@ -55,7 +55,7 @@ bin/rails jobs:work                # Process jobs (alternative)
 
 ### Framework Stack
 - **Rails 8.0.2** with modern defaults and Hotwire (Turbo + Stimulus)
-- **SQLite3** database for development/test (production needs configuration)
+- **PostgreSQL** database for all environments with dotenv-rails configuration
 - **Solid Queue/Cache/Cable** - Rails 8.0's database-backed adapters
 - **Propshaft** modern asset pipeline with **Import Maps** for JavaScript
 
@@ -82,10 +82,12 @@ bin/rails jobs:work                # Process jobs (alternative)
 - Fixtures in `test/fixtures/` for test data
 
 ### Deployment & Production
+- **Fly.io** deployment configured with PostgreSQL database backend
 - **Docker** multi-stage production build with **Thruster** HTTP acceleration
-- **Kamal** deployment configuration in `.kamal/` directory
-- **Jemalloc** memory optimization in production container
+- **Release command** runs `bin/rails db:prepare` on each deployment
+- **VM configuration** optimized with 2GB memory for database connectivity
 - SSL enforcement and security headers configured for production
+- Environment variables loaded via dotenv-rails in development/test
 
 ## Development Notes
 
