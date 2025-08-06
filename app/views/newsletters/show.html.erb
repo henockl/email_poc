@@ -1,0 +1,25 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h1><%= @newsletter.title %></h1>
+  <div>
+    <% if @newsletter.sent? %>
+      <span style="background: green; color: white; padding: 0.25rem 0.5rem; border-radius: 3px;">Sent</span>
+    <% elsif @newsletter.published? %>
+      <span style="background: blue; color: white; padding: 0.25rem 0.5rem; border-radius: 3px;">Published</span>
+    <% else %>
+      <span style="background: gray; color: white; padding: 0.25rem 0.5rem; border-radius: 3px;">Draft</span>
+    <% end %>
+  </div>
+</div>
+
+<p><strong>Publish Date:</strong> <%= @newsletter.publish_date.strftime('%A, %B %d, %Y') %></p>
+
+<div style="border: 1px solid #dee2e6; padding: 1rem; margin: 2rem 0; background: white;">
+  <%== marksmithed(@newsletter.content) %>
+</div>
+
+<div style="margin-top: 2rem;">
+  <% if @newsletter.can_edit? %>
+    <%= link_to 'Edit', edit_newsletter_path(@newsletter), style: "margin-right: 0.5rem;" %>
+  <% end %>
+  <%= link_to 'Back', newsletters_path %>
+</div>

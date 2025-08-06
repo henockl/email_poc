@@ -1,0 +1,47 @@
+<h1>Subscribers</h1>
+
+<div style="margin-bottom: 2rem;">
+  <%= link_to 'New Subscriber', new_subscriber_path, class: 'btn btn-primary' %>
+  <span style="margin-left: 2rem;">
+    Active: <strong><%= @active_count %></strong> | 
+    Inactive: <strong><%= @inactive_count %></strong>
+  </span>
+</div>
+
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr style="border-bottom: 2px solid #dee2e6;">
+      <th style="text-align: left; padding: 0.5rem;">Name</th>
+      <th style="text-align: left; padding: 0.5rem;">Email</th>
+      <th style="text-align: left; padding: 0.5rem;">Status</th>
+      <th style="text-align: left; padding: 0.5rem;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @subscribers.each do |subscriber| %>
+      <tr style="border-bottom: 1px solid #dee2e6;">
+        <td style="padding: 0.5rem;"><%= subscriber.name %></td>
+        <td style="padding: 0.5rem;"><%= subscriber.email %></td>
+        <td style="padding: 0.5rem;">
+          <% if subscriber.active? %>
+            <span style="color: green;">Active</span>
+          <% else %>
+            <span style="color: red;">Inactive</span>
+          <% end %>
+        </td>
+        <td style="padding: 0.5rem;">
+          <%= link_to 'View', subscriber, style: "margin-right: 0.5rem;" %>
+          <%= link_to 'Edit', edit_subscriber_path(subscriber), style: "margin-right: 0.5rem;" %>
+          <%= link_to 'Delete', subscriber_path(subscriber), method: :delete, 
+              confirm: 'Are you sure?', 
+              data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' },
+              style: "color: red;" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @subscribers.empty? %>
+  <p style="margin-top: 2rem;">No subscribers yet. <%= link_to 'Add your first subscriber', new_subscriber_path %>!</p>
+<% end %>

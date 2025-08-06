@@ -1,0 +1,39 @@
+<%= simple_form_for(@newsletter) do |form| %>
+  <% if @newsletter.errors.any? %>
+    <div style="color: red; margin-bottom: 1rem;">
+      <h4><%= pluralize(@newsletter.errors.count, "error") %> prohibited this newsletter from being saved:</h4>
+      <ul>
+        <% @newsletter.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :title, required: true %>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :publish_date, as: :date, required: true %>
+    <small style="color: gray;">Must be a Sunday (end of week)</small>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.label :content, "Content", required: true %>
+    <%= form.marksmith :content, placeholder: "Write your newsletter content in markdown..." %>
+    <small style="color: gray;">Use Markdown syntax for formatting. Live preview available!</small>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :published, as: :boolean %>
+    <% if @newsletter.persisted? && @newsletter.published? %>
+      <small style="color: red;">Cannot unpublish once published</small>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Newsletter", style: "margin-right: 0.5rem;" %>
+    <%= link_to 'Cancel', @newsletter.persisted? ? @newsletter : newsletters_path %>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<%= @newsletter.title %>
+<%= "=" * @newsletter.title.length %>
+
+Hello,
+
+<%= @newsletter.content %>
+
+---
+
+You're receiving this newsletter because you subscribed to our mailing list.
+To unsubscribe from future emails, visit: <%= @unsubscribe_url %>

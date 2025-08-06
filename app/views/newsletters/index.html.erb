@@ -1,0 +1,45 @@
+<h1>Newsletters</h1>
+
+<%= link_to 'New Newsletter', new_newsletter_path, class: 'btn btn-primary' %>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+  <thead>
+    <tr style="border-bottom: 2px solid #dee2e6;">
+      <th style="text-align: left; padding: 0.5rem;">Title</th>
+      <th style="text-align: left; padding: 0.5rem;">Publish Date</th>
+      <th style="text-align: left; padding: 0.5rem;">Status</th>
+      <th style="text-align: left; padding: 0.5rem;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @newsletters.each do |newsletter| %>
+      <tr style="border-bottom: 1px solid #dee2e6;">
+        <td style="padding: 0.5rem;"><%= newsletter.title %></td>
+        <td style="padding: 0.5rem;"><%= newsletter.publish_date.strftime('%A, %B %d, %Y') %></td>
+        <td style="padding: 0.5rem;">
+          <% if newsletter.sent? %>
+            <span style="color: green;">Sent</span>
+          <% elsif newsletter.published? %>
+            <span style="color: blue;">Published</span>
+          <% else %>
+            <span style="color: gray;">Draft</span>
+          <% end %>
+        </td>
+        <td style="padding: 0.5rem;">
+          <%= link_to 'View', newsletter, style: "margin-right: 0.5rem;" %>
+          <% unless newsletter.published? %>
+            <%= link_to 'Edit', edit_newsletter_path(newsletter), style: "margin-right: 0.5rem;" %>
+            <%= link_to 'Delete', newsletter_path(newsletter), method: :delete, 
+                confirm: 'Are you sure?', 
+                data: { "turbo-method": :delete, "turbo-confirm": 'Are you sure?' },
+                style: "color: red;" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @newsletters.empty? %>
+  <p style="margin-top: 2rem;">No newsletters yet. <%= link_to 'Create your first newsletter', new_newsletter_path %>!</p>
+<% end %>

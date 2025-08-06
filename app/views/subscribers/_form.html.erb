@@ -1,0 +1,29 @@
+<%= simple_form_for(@subscriber) do |form| %>
+  <% if @subscriber.errors.any? %>
+    <div style="color: red; margin-bottom: 1rem;">
+      <h4><%= pluralize(@subscriber.errors.count, "error") %> prohibited this subscriber from being saved:</h4>
+      <ul>
+        <% @subscriber.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :name, required: true %>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :email, required: true %>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.input :active, as: :boolean %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Subscriber", style: "margin-right: 0.5rem;" %>
+    <%= link_to 'Cancel', @subscriber.persisted? ? @subscriber : subscribers_path %>
+  </div>
+<% end %>

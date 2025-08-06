@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: "Test Newsletter One"
+  content: "# Welcome\n\nThis is test newsletter one."
+  published: false
+  publish_date: 2025-01-26  # Sunday
+  sent: false
+
+two:
+  title: "Test Newsletter Two" 
+  content: "# Another Newsletter\n\nThis is test newsletter two."
+  published: false
+  publish_date: 2025-02-02  # Sunday
+  sent: false
