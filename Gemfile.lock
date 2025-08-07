@@ -177,7 +177,7 @@ GEM
     mailkick (2.0.0)
       activesupport (>= 7.1)
     marcel (1.0.4)
-    marksmith (0.4.5)
+    marksmith (0.4.7)
       activesupport
     matrix (0.4.3)
     mini_mime (1.1.5)
